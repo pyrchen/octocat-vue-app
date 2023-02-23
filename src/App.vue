@@ -1,26 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <AppHeading :appTitle="appTitle" />
+  <RepositoryListDropBox />
+  <IssuesList />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { defineComponent } from 'vue';
+import {
+  RepositoryListDropBox,
+  IssuesList,
+  AppHeading,
+} from './components';
+import { provideApolloClient } from "@vue/apollo-composable";
+import { apolloClient } from "./apollo-config.js";
 
-export default {
+provideApolloClient(apolloClient);
+
+export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    AppHeading,
+    IssuesList,
+    RepositoryListDropBox,
+  },
+  data() {
+    return {
+      appTitle: process.env.VUE_APP_REPO_OWNER_NAME + "'s repositories",
+    };
+  },
+});
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
 </style>
